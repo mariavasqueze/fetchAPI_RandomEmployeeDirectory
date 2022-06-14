@@ -68,10 +68,11 @@ function modalModule(employee) {
 // Create individual employee modal card
 function CreateModalCard(employee) {
 
-  // Fix birthday format
+  // formmat birthday
   let birthday = employee.dob.date;
-  let slicedBirthDate = birthday.substr(0, 10);
-  console.log(slicedBirthDate);
+  let slicedBirthDate = birthday.slice(0, 10);
+  let bd = slicedBirthDate.split("-");
+  console.log(bd);
 
   // Modal content
   modal.innerHTML = `
@@ -84,22 +85,21 @@ function CreateModalCard(employee) {
                 <hr>
                 <p class="modal-text">${employee.cell}</p>
                 <p class="modal-text">${employee.location.street.number} ${employee.location.street.name}, ${employee.location.state}, ${employee.location.postcode}</p>
-                <p class="modal-text">Birthday: ${slicedBirthDate}10/21/2015</p>
+                <p class="modal-text">Birthday: ${bd[0]} / ${bd[1]} / ${bd[2]} </p>
             </div>
     `;
 
-  // Should I NOT append to body???
-  body.appendChild(modal);
+  document.body.appendChild(modal);
 
   // Remove modal when click X (close)
-  modal.addEventListener("click", event => {
-    if (event.target.className == "modal-close-btn" || event.className == "modal-btn-container") {
+  document.getElementById("modal-close-btn").addEventListener("click", event => {
+    if (event.target) {
       console.log(event);
       modal.remove();
     }
   })
-
 }
+
 
 /* 
 * Search Functionality:
@@ -130,6 +130,7 @@ function searchEmployee() {
     // Default state = hidden
     card.style.display = "none";
 
+    // show if name matches search
     if (names[i].textContent.toLowerCase().includes(searchBar.value.toLowerCase())) {
       card.style.display = "block";
     }
